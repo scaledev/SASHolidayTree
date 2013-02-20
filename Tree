@@ -1,0 +1,68 @@
+/* HOLIDAY TREE CODE */
+
+* Make your log into a yule log with a beautiful holiday tree;
+
+/* Adapted by David Goodsmith from: "The Do Loop" http://bit.ly/sT4YFV */
+
+/* I added the variables to make it customizable and move it away from the center */
+
+
+
+data _null_;
+
+
+
+
+size=10; *Added this variable so size would be "customizable"  ;
+/* This is a big decision!!! How big should your tree be??? */
+
+leaves='#!*0';
+
+
+
+if size>40 then size=40; *Wrapping is good for presents, but not for ascii trees;
+
+center = size+5; *give the tree a bit of room from the scary left edge of the window ;
+flame = size-4;
+
+/* Oh yeah, lets put that menorah on top */
+put #1 @9+flame '(' #2 @1+flame '(' @9+flame '|';
+j=3;
+do q=' ','_';
+do k=1 to 17;
+c=ifc(not mod(k,2),q,'|');
+put #j @k+flame c @;
+end;
+j+1;
+end;
+q=0;
+put #j @8+flame '_|_';
+/* run; */
+/* End menorah */
+
+put @center '@';
+
+
+do i=0 to size;
+  b=substr(repeat(leaves,i),1,2*i+1);
+/* Actually here's a big decision too, what should the "leaves" look like? */
+
+
+/* About the "Substring" substr function:
+  Its inputs are (source,position,shift)
+ Here our source is a repeated series of leaves *0
+  Our Position is 1
+  And, the number of characters from our starting position is 2*i+1
+
+  */
+
+  put @(center-i) b;
+end;
+
+do i=0 to size*.15;	/* Lets have a nice trunk that's 15% of the size of the tree */
+put @(center-1) '| |';
+end;
+
+
+
+run;
